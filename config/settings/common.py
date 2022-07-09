@@ -55,7 +55,7 @@ INSTALLED_APPS += [
     'rest_framework',
     'drf_yasg',
     'rest_framework_simplejwt',
-    'rest_framework_simplejwt.blacklist',
+    'rest_framework_simplejwt.token_blacklist',
     'user',
     'product',
     'market',
@@ -105,7 +105,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # 'user.authenticate.CustomJWTAuthentication',
-        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTTokenUserAuthentication',
     ),
 }

@@ -25,16 +25,16 @@ class LoginSerializer(serializers.ModelSerializer):
         password = data.get('password', None)
 
         if User.objects.filter(username=username).exists():
-            get_user = User.obejcts.get(username=username)
+            get_user = User.objects.get(username=username)
 
             if not get_user.check_password(password):
                 raise serializers.ValidationError(
                     _('Check Your Password')
                 )
-            else:
-                raise serializers.ValidationError(
-                    _('User does not exist')
-                )
+        else:
+            raise serializers.ValidationError(
+                _('User does not exist')
+            )
 
         user = authenticate(username=username, password=password)
         token = RefreshToken.for_user(user)
