@@ -8,7 +8,6 @@ user_login = LoginAPI.as_view({
 })
 
 
-
 urlpatterns = [
-    path('login/', user_login, name='login'),
+    path('login/', user_login),
 ]

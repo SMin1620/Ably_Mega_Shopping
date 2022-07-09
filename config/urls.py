@@ -22,9 +22,9 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
     openapi.Info(
-        title='Payhere',
+        title='Mega Shooping',
         default_version='api',
-        description='Payhere Swagger',
+        description='Mega Shooping Swagger',
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(name="test", email="test@test.com"),
         license=openapi.License(name="Test License"),

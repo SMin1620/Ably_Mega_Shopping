@@ -5,6 +5,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from user.models import User
 from user.utils import validate_password12
+from user.token_serializers import MyTokenObtainPairSerializer
 
 
 class LoginSerializer(serializers.ModelSerializer):
@@ -37,7 +38,7 @@ class LoginSerializer(serializers.ModelSerializer):
             )
 
         user = authenticate(username=username, password=password)
-        token = RefreshToken.for_user(user)
+        token = MyTokenObtainPairSerializer.get_token(user)
 
         data = {
             'user': user.id,
