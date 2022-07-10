@@ -49,6 +49,67 @@ class Product(models.Model):
         return f'{self.id}, {self.name}'
 
 
+class ProductReal(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_real')
+
+    option_1_type = models.CharField('옵션1 타입', max_length=10, default='SIZE')
+    option_1_name = models.CharField('옵션1 이름 (내부용)', max_length=30)
+    option_1_display_name = models.CharField('옵션1 이름 (노출용)', max_length=30)
+
+    option_2_type = models.CharField('옵션2 타입', max_length=10, default='COLOR')
+    option_2_name = models.CharField('옵션2 이름 (내부용)', max_length=30)
+    option_2_display_name = models.CharField('옵션2 이름 (노출용)', max_length=30)
+
+    option_3_type = models.CharField('옵션3 타입', max_length=10, default='', blank=True)
+    option_3_name = models.CharField('옵션3 이름 (내부용)', max_length=30, blank=True)
+    option_3_display_name = models.CharField('옵션3 이름 (노출용)', max_length=30, blank=True)
+
+    reg_date = models.DateTimeField('생성 날짜', auto_now_add=True)
+    update_date = models.DateTimeField('수정 날짜', auto_now=True)
+
+    is_hidden = models.BooleanField('숨김 여부', default=False)
+    is_sold_out = models.BooleanField('품절 여부', default=False)
+
+    add_price = models.PositiveIntegerField('추가 가격', default=0)
+
+    stock_quantity = models.PositiveIntegerField('재고량', default=0)
+
+
+    class Meta:
+        db_table = 'product_real'
+        constraints = [
+            models.UniqueConstraint(
+                'product',
+                'option_1_name',
+                'option_2_name',
+                'option_3_name',
+                name='option_name_unique'
+            ),
+        ]
+
+    def __str__(self):
+        return f'{self.id}, {self.option_1_display_name} - {self.option_2_display_name} - {self.option_3_display_name}'
+
+    @property
+    def rgb_color(self):
+        return ProductReal.rbg_color_from_color_name(self.option_2_name)
+
+    @classmethod
+    def rgb_color_from_color_name(cls, color):
+        if color == '레드':
+            rgb_color = 'FF0000'
+        elif color == '그린':
+            rgb_color = '008000'
+        elif color == '블루':
+            rgb_color = '0000FF'
+        elif color == '핑크':
+            rgb_color = 'ffc0cb'
+        elif color == '와인':
+            rgb_color = '722F37'
+        else:
+            rgb_color = 'FFFFFF'
+
+        return rgb_color
 
 
 
