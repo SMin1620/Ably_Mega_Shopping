@@ -100,6 +100,11 @@ class RegisterSerializer(serializers.Serializer):
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
+    """
+    유저 상세 정보 조회
+    유저 정보 수정
+    유저 탈퇴
+    """
     class Meta:
         model = User
         fields = [
