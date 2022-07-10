@@ -1,7 +1,6 @@
 from django.contrib.auth import authenticate
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
-from rest_framework_simplejwt.tokens import RefreshToken
 
 from user.models import User
 from user.utils import validate_password12
@@ -98,6 +97,24 @@ class RegisterSerializer(serializers.Serializer):
             gender=validate_data['gender']
         )
         return user
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'id',
+            'username',
+            'email',
+            'name',
+            'gender',
+            'reg_date'
+        ]
+        write_only_fields = [
+            'email',
+            'name',
+            'gender',
+        ]
 
 
 
