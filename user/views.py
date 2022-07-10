@@ -8,8 +8,14 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from user.models import User
-from user.serializers import LoginSerializer
-from user.token_serializers import MyTokenObtainPairSerializer, APIRefreshTokenSerializer
+from user.serializers import (
+    LoginSerializer,
+    RegisterSerializer,
+)
+from user.token_serializers import (
+    MyTokenObtainPairSerializer,
+    APIRefreshTokenSerializer
+)
 
 
 # Create your views here.
@@ -53,7 +59,6 @@ class ApiRefreshRefreshTokenView(GenericAPIView):
         })
 
 
-
 class LoginAPI(viewsets.GenericViewSet):
     """
     로그인 View
@@ -69,12 +74,46 @@ class LoginAPI(viewsets.GenericViewSet):
     def login(self, request):
         serializer = self.get_serializer(data=request.data)
 
-        serializer.is_valid(raise_exception=True)
-        user = request.data.get('username')
-        token = serializer.validated_data
-        return Response(
-            {
-                'message': f'로그인 되었습니다. 반갑습니다 {user}님',
-                'token': token
-            }, status=status.HTTP_200_OK
-        )
+        if serializer.is_valid(raise_exception=True):
+            user = request.data.get('username')
+            token = serializer.validated_data
+            return Response(
+                {
+                    'message': f'로그인 되었습니다. 반갑습니다 {user}님',
+                    'token': token
+                }, status=status.HTTP_200_OK
+            )
+        else:
+            return Response(
+                serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
+
+
+class RegisterAPI(viewsets.GenericViewSet):
+    """
+    회원가입 View
+    """
+
+    def get_queryset(self):
+        return User.objects.all()
+
+    def get_serializer_class(self):
+        return RegisterSerializer
+
+    @action(detail=False, methods=['post'])
+    def register(self, request):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(
+                {
+                    'message': '회원가입이 되었습니다.'
+                }, status=status.HTTP_200_OK
+            )
+        else:
+            return Response(
+                serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
+
+
+
