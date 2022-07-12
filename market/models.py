@@ -9,8 +9,10 @@ class Market(models.Model):
     site_url = models.URLField('마켓 사이트', max_length=100)
     email = models.EmailField('마켓 이메일', max_length=100)
     description = models.TextField('마켓 설명')
-
     review_point = models.DecimalField('리뷰 포인트', max_digits=2, decimal_places=1, default=0)
+
+    reg_date = models.DateTimeField('생성 날짜', auto_now_add=True)
+    update_date = models.DateTimeField('수정 날짜', auto_now=True)
 
     master = models.OneToOneField(User, on_delete=models.CASCADE)
 
