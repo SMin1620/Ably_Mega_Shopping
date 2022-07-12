@@ -22,7 +22,9 @@ def gen_category():
     Category(name='블라우스').save()
 
 
+
 def gen_product(
+        market: int,
         name: str,
         display_name: str,
         description: str,
@@ -45,6 +47,7 @@ def gen_product(
     opt_2_display_names = ('감성레드', '감성와인', '감성그린', '감성핑크',)
 
     product = Product(
+        market_id=market,
         name=name,
         display_name=display_name,
         description=description,
@@ -82,37 +85,37 @@ def gen_product_data(apps, schema_editor):
     gen_category()
 
     gen_product(
-        '구두', '인스타 셀럽 구두', '트렌드에 맞는 상품입니다.',
+        1, '구두', '인스타 셀럽 구두', '트렌드에 맞는 상품입니다.',
         20000, False, False, False, 1000, 250, 4,
         ('235, 3cm', '235, 6cm', '240, 3cm', '240, 6cm', '245, 3cm', '245, 6cm',),
     )
 
     gen_product(
-        '니트', '브이넥 아가일 니트', '두께감이 어느정도 있는 니트입니다.',
+        1, '니트', '브이넥 아가일 니트', '두께감이 어느정도 있는 니트입니다.',
         70000, False, False, False, 400, 50, 3,
         ('XS', 'S', 'M', 'L', 'XL',),
     )
 
     gen_product(
-        '롱스커트', '체크무늬 트렌트 롱스커트', '롱스커트입니다.',
+        1, '롱스커트', '체크무늬 트렌트 롱스커트', '롱스커트입니다.',
         30000, False, False, False, 100, 20, 4,
         ('FREE',),
     )
 
     gen_product(
-        '숏스커트', '인스타 셀럽 숏스커트', '연예인이 착용한 스커트입니다.',
+        2, '숏스커트', '인스타 셀럽 숏스커트', '연예인이 착용한 스커트입니다.',
         30000, False, False, False, 3000, 550, 5,
         ('FREE',),
     )
 
     gen_product(
-        '청바지', '인스타 셀럽 청바지', '와일드 핏의 청버자입니다.',
+        2, '청바지', '인스타 셀럽 청바지', '와일드 핏의 청버자입니다.',
         80000, False, False, False, 100, 10, 3,
         ('XS', 'S', 'M', 'L', 'XL',),
     )
 
     gen_product(
-        '청자켓', '인스타 셀럽 청자켓', '연예인이 착용한 자켓입니다.',
+        3, '청자켓', '인스타 셀럽 청자켓', '연예인이 착용한 자켓입니다.',
         30000, False, False, False, 3000, 550, 5,
         ('34', '36',),
     )

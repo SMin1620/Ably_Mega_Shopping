@@ -1,5 +1,7 @@
 from django.db import models
 
+from market.models import Market
+
 
 class Category(models.Model):
     """
@@ -41,6 +43,7 @@ class Product(models.Model):
     review_point = models.PositiveIntegerField('리뷰 평점', default=0)
 
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
+    market = models.ForeignKey(Market, on_delete=models.DO_NOTHING)
 
     class Meta:
         db_table = 'product'
