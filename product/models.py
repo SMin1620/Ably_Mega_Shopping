@@ -1,6 +1,7 @@
 from django.db import models
 
 from market.models import Market
+from user.models import User
 
 
 class Category(models.Model):
@@ -44,6 +45,12 @@ class Product(models.Model):
 
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
     market = models.ForeignKey(Market, on_delete=models.DO_NOTHING)
+
+    product_like_user = models.ManyToManyField(
+        User,
+        through='product.ProductLikeUser',
+        related_name='product_like_user'
+    )
 
     class Meta:
         db_table = 'product'
@@ -115,7 +122,16 @@ class ProductReal(models.Model):
         return rgb_color
 
 
+class ProductLikeUser(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
+    reg_date = models.DateTimeField('생성 날짜', auto_now_add=True)
+    update_date = models.DateTimeField('수정 날짜', auto_now=True)
 
+    class Meta:
+        db_table = 'product_like_user'
 
+    def __str__(self):
+        return f'{self.user.username} // {self.product.name}'
 
