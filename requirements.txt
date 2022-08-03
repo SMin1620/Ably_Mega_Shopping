@@ -7,7 +7,7 @@ Django==4.0.6
 django-environ==0.9.0
 djangorestframework==3.13.1
 djangorestframework-simplejwt==5.2.0
-drf-yasg==1.20.0
+drf-yasg==1.21.3
 idna==3.3
 inflection==0.5.1
 itypes==1.2.0
@@ -26,3 +26,4 @@ sqlparse==0.4.2
 typing==3.7.4.3
 uritemplate==4.1.1
 urllib3==1.26.10
+whitenoise==6.2.0
