@@ -5,7 +5,6 @@ from product.models import (
     ProductReal,
     Category
 )
-from market.serializers import MarketListSerializer
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -18,6 +17,15 @@ class CategorySerializer(serializers.ModelSerializer):
             'id',
             'name'
         ]
+
+
+class ProductRealSerializer(serializers.ModelSerializer):
+    """
+    상품 옵션 시리얼라이저
+    """
+    class Meta:
+        model = ProductReal
+        fields = '__all__'
 
 
 class ProductListSerializer(serializers.ModelSerializer):
@@ -44,61 +52,30 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     """
     상품 디테일 조회 시리얼라이저 - 사용자 전용
     """
-    category_name = serializers.SerializerMethodField(read_only=True)
-    display_name = serializers.SerializerMethodField(read_only=True)
-    description = serializers.SerializerMethodField(read_only=True)
-    price = serializers.SerializerMethodField(read_only=True)
-    sale_price = serializers.SerializerMethodField(read_only=True)
-    is_sold_out = serializers.SerializerMethodField(read_only=True)
-    hit_count = serializers.SerializerMethodField(read_only=True)
-    review_count = serializers.SerializerMethodField(read_only=True)
-    review_point = serializers.SerializerMethodField(read_only=True)
+    product_real = ProductRealSerializer(many=True, read_only=True)
+    product_like_user = serializers.SerializerMethodField(read_only=True)
 
-    def get_category_name(self, obj):
-        return obj.product.category.name
-
-    def get_display_name(self, obj):
-        return obj.product.display_name
-
-    def get_description(self, obj):
-        return obj.product.description
-
-    def get_price(self, obj):
-        return obj.product.price
-
-    def get_sale_price(self, obj):
-        return obj.product.sale_price
-
-    def get_is_sold_out(self, obj):
-        return obj.product.is_sold_out
-
-    def get_hit_count(self, obj):
-        return obj.product.hit_count
-
-    def get_review_count(self, obj):
-        return obj.product.review_count
-
-    def get_review_point(self, obj):
-        return obj.product.review_point
+    def get_product_like_user(self, obj):
+        return obj.product_like_user.count()
 
     class Meta:
-        model = ProductReal
+        model = Product
         fields = [
-            'category_name',
+            'id',
             'display_name',
-            'description',
             'price',
             'sale_price',
+            'is_hidden',
             'is_sold_out',
+            'reg_date',
+            'update_date',
+            'product_like_user',
             'hit_count',
             'review_count',
             'review_point',
-            'option_1_type',
-            'option_1_display_name',
-            'option_2_type',
-            'option_2_display_name',
-            'option_3_type',
-            'option_3_display_name',
+            'category',
+            'market',
+            'product_real',
         ]
 
 
