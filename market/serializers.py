@@ -7,6 +7,38 @@ from market.models import Market
 from product.models import Product, ProductReal
 
 
+class MarketAdminProductRealListCreateSerializer(serializers.ModelSerializer):
+    """
+    상품 옵션 시리얼라이저
+    """
+    class Meta:
+        model = ProductReal
+        fields = [
+            'id',
+            'reg_date',
+            'update_date',
+            'is_hidden',
+            'is_sold_out',
+            'add_price',
+            'stock_quantity',
+            'product',
+            'option_1_name',
+            'option_1_display_name',
+            'option_2_name',
+            'option_2_display_name',
+        ]
+        extra_kwargs = {
+            'option_1_name': {'required': False, 'allow_null': True, "write_only": True},
+            'option_1_display_name': {'required': False, 'allow_null': True, "write_only": True},
+            'option_2_name': {'required': False, 'allow_null': True,"write_only": True},
+            'option_2_display_name': {'required': False, 'allow_null': True, "write_only": True},
+            'add_price': {'required': False, 'allow_null': True, "write_only": True},
+            'stock_quantity': {'required': False, 'allow_null': True, "write_only": True},
+            'is_hidden': {'required': False, 'allow_null': True, "write_only": True},
+            'is_sold_out': {'required': False, 'allow_null': True, "write_only": True},
+        }
+
+
 class MarketListSerializer(serializers.ModelSerializer):
     """
     마켓 목록 조회 - 사용자 전용
@@ -44,7 +76,7 @@ class MarketProductListSerializer(serializers.ModelSerializer):
     마켓별 상품 리스트 시리얼라이저 - 사용자 전용
     """
     product_like_user = serializers.SerializerMethodField(read_only=True)
-    market = serializers.ReadOnlyField()
+    market = serializers.ReadOnlyField(source='market.id')
 
     def get_product_like_user(self, obj):
         return obj.product_like_user.count()
@@ -61,6 +93,33 @@ class MarketProductListSerializer(serializers.ModelSerializer):
             'product_like_user',
             'market',
             'category',
+        ]
+
+
+class MarketAdminDetailSerializer(serializers.ModelSerializer):
+    """
+    해당 마켓의 상품 상세 조회 - 마켓 관리자 전용
+    """
+    class Meta:
+        model = Product
+        fields = [
+            'id',
+            'name',
+            'name',
+            'display_name',
+            'description',
+            'price',
+            'sale_price',
+            'is_hidden',
+            'is_sold_out',
+            'hit_count',
+            'review_count',
+            'review_point',
+            'reg_date',
+            'update_date',
+            'delete_date',
+            'category',
+            'market',
         ]
 
 
@@ -143,3 +202,25 @@ class MarketAdminProductListCreateSerializer(serializers.ModelSerializer):
             product_real_serializer.save()
 
         return product
+
+
+class MarketAdminUpdateDeleteSerializer(serializers.ModelSerializer):
+    """
+    본인 마켓의 상품 수정 - 마켓 관리자 전용
+    """
+
+    class Meta:
+        model = Product
+        fields = [
+            'name',
+            'display_name',
+            'description',
+            'price',
+            'sale_price',
+            'is_hidden',
+            'is_sold_out',
+            'category',
+        ]
+
+
+
