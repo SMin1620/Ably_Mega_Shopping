@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 
 from rest_framework import mixins, viewsets, status
@@ -13,6 +14,7 @@ from product.serializers import (
     CategorySerializer,
     ProductListSerializer,
     ProductDetailSerializer,
+    ProductLikeSerializer,
 )
 
 
@@ -25,16 +27,26 @@ class ProductListAPI(mixins.ListModelMixin,
     """
 
     lookup_url_kwarg = 'product_id'
+    queryset = Product.objects.all()
 
     def get_queryset(self):
         if self.action == 'list':
-            return Product.objects.all()
-        else:
-            return Product.objects.all()
+            search = self.request.GET.get('search', '')
+
+            condition = Q()
+            if search:
+                condition.add(
+                    Q(display_name__icontains=search) |
+                    Q(market__name__icontains=search),
+                    Q.OR
+                )
+            return Product.objects.filter(condition)
 
     def get_serializer_class(self):
         if self.action == 'list':
             return ProductListSerializer
+        elif self.action == 'like':
+            return ProductLikeSerializer
         else:
             return ProductDetailSerializer
 

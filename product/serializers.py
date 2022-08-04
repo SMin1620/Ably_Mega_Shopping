@@ -3,7 +3,8 @@ from rest_framework import serializers
 from product.models import (
     Product,
     ProductReal,
-    Category
+    Category,
+    ProductLikeUser
 )
 
 
@@ -28,10 +29,30 @@ class ProductRealSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ProductLikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductLikeUser
+        fields = [
+            'id',
+            'product',
+            'user'
+        ]
+        read_only_fields = [
+            'id',
+            'product',
+            'user'
+        ]
+
+
 class ProductListSerializer(serializers.ModelSerializer):
     """
     상품 리스트 조회 시리얼라이저- 사용저 전용
     """
+    market = serializers.SerializerMethodField(read_only=True)
+
+    def get_market(self, obj):
+        return obj.market.name
+
     class Meta:
         model = Product
         fields = [
