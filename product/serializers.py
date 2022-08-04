@@ -20,38 +20,6 @@ class CategorySerializer(serializers.ModelSerializer):
         ]
 
 
-# class ProductSerializer(serializers.ModelSerializer):
-#     """
-#     상품 시리얼라이저
-#     """
-#     category = CategorySerializer()
-#     market = MarketListSerializer()
-#     product_real = ProductRealSerializer(many=True)
-#
-#     class Meta:
-#         model = Product
-#         fields = [
-#             'id',
-#             'name',
-#             'display_name',
-#             'description',
-#             'price',
-#             'sale_price',
-#             'is_hidden',
-#             'is_sold_out',
-#             'is_deleted',
-#             'reg_date',
-#             'update_date',
-#             'delete_date',
-#             'hit_count',
-#             'review_count',
-#             'review_point',
-#             'category',
-#             'market',
-#             'product_real',
-#         ]
-
-
 class ProductListSerializer(serializers.ModelSerializer):
     """
     상품 리스트 조회 시리얼라이저- 사용저 전용
@@ -67,6 +35,8 @@ class ProductListSerializer(serializers.ModelSerializer):
             'hit_count',
             'review_count',
             'review_point',
+            'market',
+            'category',
         ]
 
 
