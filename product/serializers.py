@@ -6,6 +6,7 @@ from product.models import (
     Category,
     ProductLikeUser
 )
+from qna.serializers import QuestionSerializer
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -75,6 +76,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     """
     product_real = ProductRealSerializer(many=True, read_only=True)
     product_like_user = serializers.SerializerMethodField(read_only=True)
+    questions = QuestionSerializer(many=True, read_only=True)
 
     def get_product_like_user(self, obj):
         return obj.product_like_user.count()
@@ -97,6 +99,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             'category',
             'market',
             'product_real',
+            'questions',
         ]
 
 

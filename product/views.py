@@ -10,6 +10,8 @@ from product.models import (
     ProductReal,
     Category
 )
+from qna.models import Question
+from qna.serializers import QuestionSerializer
 from product.serializers import (
     CategorySerializer,
     ProductListSerializer,
@@ -41,6 +43,9 @@ class ProductListAPI(mixins.ListModelMixin,
                     Q.OR
                 )
             return Product.objects.filter(condition)
+        elif self.action == 'retrieve':
+            pk = self.kwargs['product_id']
+            return Product.objects.filter(pk=pk)
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -91,4 +96,14 @@ class CategoryProductListViewSet(mixins.ListModelMixin,
             return CategorySerializer
         else:
             return ProductListSerializer
+
+
+class ProductQuestionListViewSet(mixins.ListModelMixin,
+                                 viewsets.GenericViewSet):
+    """
+    상품별 질문 리스트 조회
+    """
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+
 
