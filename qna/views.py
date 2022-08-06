@@ -1,4 +1,6 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import mixins, viewsets, status
+from rest_framework.response import Response
 
 from qna.models import Question, Answer
 from qna.serializers import (
@@ -7,6 +9,7 @@ from qna.serializers import (
     QuestionDetailUpdateDeleteSerializer,
     AnswerSerializer,
     AnswerCreateSerializer,
+    AnswerDetailUpdateDeleteSerializer
 )
 
 
@@ -77,3 +80,35 @@ class AnswerListCreateViewSet(mixins.ListModelMixin,
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class AnswerDetailUpdateDeleteViewSet(mixins.RetrieveModelMixin,
+                                      mixins.UpdateModelMixin,
+                                      mixins.DestroyModelMixin,
+                                      viewsets.GenericViewSet):
+    """
+    답변 상세 조회
+    수정
+    삭제
+    """
+    lookup_url_kwarg = 'answer_id'
+
+    queryset = Answer.objects.all()
+    serializer_class = AnswerDetailUpdateDeleteSerializer
+
+    def partial_update(self, request, *args, **kwargs):
+        """
+        본인 답변 수정
+        """
+        kwargs['partial'] = True
+
+        return self.update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        pk = kwargs['answer_id']
+        answer = get_object_or_404(Answer, pk=pk)
+        answer.question.is_complete = False
+        answer.question.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+

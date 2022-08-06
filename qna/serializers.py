@@ -1,3 +1,5 @@
+from django.db import transaction
+
 from rest_framework import serializers
 
 from qna.models import Question, Answer
@@ -90,7 +92,6 @@ class AnswerCreateSerializer(serializers.ModelSerializer):
     답변 생성
     """
     user = serializers.ReadOnlyField(source='user.nickname')
-    question = QuestionSerializer(read_only=True)
 
     class Meta:
         model = Answer
@@ -102,7 +103,35 @@ class AnswerCreateSerializer(serializers.ModelSerializer):
             'user',
             'question'
         ]
-        extra_kwargs = {
-            'body': {'write_only': True}
-        }
+
+    @transaction.atomic()
+    def create(self, validated_data):
+        answer = Answer.objects.create(**validated_data)
+        answer.question.is_complete = True
+        answer.question.save()
+        return answer
+
+
+class AnswerDetailUpdateDeleteSerializer(serializers.ModelSerializer):
+    """
+    답변 상세 조회
+    수정
+    삭제
+    """
+    question = QuestionSerializer(read_only=True)
+
+    class Meta:
+        model = Answer
+        fields = [
+            'id',
+            'body',
+            'reg_date',
+            'update_date',
+            'user',
+            'question',
+        ]
+        read_only_fields = [
+            'question',
+            'user'
+        ]
 
