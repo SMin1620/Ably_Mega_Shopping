@@ -61,19 +61,19 @@ class AnswerListCreateViewSet(mixins.ListModelMixin,
     """
     queryset = Answer.objects.all()
 
-    # def get_queryset(self):
-    #     if self.request.method == 'GET':
-    #         question_id = self.kwargs['question_id']
-    #         return Answer.objects \
-    #             .filter(question_id=question_id) \
-    #             .prefetch_related('user') \
-    #             .all()
+    def get_queryset(self):
+        if self.request.method == 'GET':
+            question_id = self.kwargs['question_id']
+            return Answer.objects \
+                .filter(question_id=question_id) \
+                .prefetch_related('user') \
+                .all()
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
             return AnswerSerializer
         else:
-            return AnswerListCreateViewSet
-    #
-    # def perform_create(self, serializer):
-    #     serializer.save(user=self.request.user)
+            return AnswerCreateSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

@@ -90,6 +90,7 @@ class AnswerCreateSerializer(serializers.ModelSerializer):
     답변 생성
     """
     user = serializers.ReadOnlyField(source='user.nickname')
+    question = QuestionSerializer(read_only=True)
 
     class Meta:
         model = Answer

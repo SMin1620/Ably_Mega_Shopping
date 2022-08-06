@@ -18,14 +18,18 @@ question_detail_update_delete = QuestionDetailUpdateDeleteViewSet.as_view({
     'delete': 'destroy'
 })
 
-answer_list_create = AnswerListCreateViewSet.as_view({
+answer_list = AnswerListCreateViewSet.as_view({
     'get': 'list',
-    'post': 'create',
+})
+
+answer_create = AnswerListCreateViewSet.as_view({
+    'post': 'create'
 })
 
 
 urlpatterns = [
     path('', question_list_create, name='question list create'),
     path('<int:question_id>/', question_detail_update_delete, name='question detail'),
-    path('<int:question_id>/answer/', answer_list_create, name='answer list create'),
+    path('<int:question_id>/answer/', answer_list, name='answer list create'),
+    path('answer/', answer_create, name='answer create'),
 ]
