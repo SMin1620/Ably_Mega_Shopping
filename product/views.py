@@ -18,6 +18,7 @@ from product.serializers import (
     ProductDetailSerializer,
     ProductLikeSerializer,
 )
+from cart.serializers import CartSerializer
 
 
 # Create your views here.
@@ -105,5 +106,3 @@ class ProductQuestionListViewSet(mixins.ListModelMixin,
     """
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-
-
