@@ -18,7 +18,7 @@ from product.serializers import (
     ProductDetailSerializer,
     ProductLikeSerializer,
 )
-from cart.serializers import CartSerializer
+from config.utils.pagination import LargeResultsSetPagination
 
 
 # Create your views here.
@@ -31,6 +31,7 @@ class ProductListAPI(mixins.ListModelMixin,
 
     lookup_url_kwarg = 'product_id'
     queryset = Product.objects.all()
+    pagination_class = LargeResultsSetPagination
 
     def get_queryset(self):
         if self.action == 'list':
@@ -80,6 +81,7 @@ class CategoryProductListViewSet(mixins.ListModelMixin,
     카테고리별 상품 리스트 조회 - 사용자 전용
     """
     lookup_url_kwarg = 'category_id'
+    pagination_class = LargeResultsSetPagination
 
     def get_queryset(self):
         if self.action == 'list':
@@ -106,3 +108,4 @@ class ProductQuestionListViewSet(mixins.ListModelMixin,
     """
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    pagination_class = LargeResultsSetPagination

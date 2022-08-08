@@ -12,7 +12,6 @@ from cart.serializers import (
     CartCreateSerializer,
     CartDetailUpdateDeleteSerializer
 )
-from user.models import User
 
 
 class CartUserViewSet(mixins.ListModelMixin,
