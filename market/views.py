@@ -14,6 +14,7 @@ from market.serializers import (
 )
 from market.models import Market
 from product.models import Product, ProductReal
+from config.utils.pagination import LargeResultsSetPagination
 
 
 # Create your views here.
@@ -40,6 +41,7 @@ class MarketProductListViewSet(mixins.ListModelMixin,
     """
     마켓별 상품 목록 조회 뷰셋 - 사용자 전용
     """
+    pagination_class = LargeResultsSetPagination
 
     def get_queryset(self):
         market_id = self.kwargs['market_id']

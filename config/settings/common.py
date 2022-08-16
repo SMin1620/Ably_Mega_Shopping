@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import environ
 import os
+import pymysql
 
 from pathlib import Path
 from datetime import timedelta
@@ -56,17 +57,21 @@ INSTALLED_APPS += [
     'drf_yasg',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    'corsheaders',
+    'django_pydenticon',
     'user',
     'product',
     'market',
     'qna',
     'cart',
+    'tag'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -74,6 +79,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
+pymysql.install_as_MySQLdb()
 
 TEMPLATES = [
     {
@@ -191,6 +197,13 @@ TIME_ZONE = 'Asia/Seoul'
 USE_I18N = True
 
 USE_TZ = True
+
+# 외부에서 이 서버의 API를 사용할 수 있도록 설정
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = ['https://cdpn.io']
+
+CORS_ORIGIN_WHITELIST = CSRF_TRUSTED_ORIGINS
 
 
 # Static files (CSS, JavaScript, Images)
