@@ -93,6 +93,7 @@ class MarketProductListSerializer(serializers.ModelSerializer):
             'product_like_user',
             'market',
             'category',
+            'thumb_img_url'
         ]
 
 
@@ -120,6 +121,7 @@ class MarketAdminDetailSerializer(serializers.ModelSerializer):
             'delete_date',
             'category',
             'market',
+            'thumb_img_url'
         ]
 
 
@@ -179,7 +181,8 @@ class MarketAdminProductListCreateSerializer(serializers.ModelSerializer):
             'product_like_user',
             'market',
             'category',
-            'product_reals'
+            'product_reals',
+            'thumb_img_url'
         ]
         read_only_fields = [
             'market',
@@ -220,6 +223,7 @@ class MarketAdminUpdateDeleteSerializer(serializers.ModelSerializer):
             'is_hidden',
             'is_sold_out',
             'category',
+            'thumb_img_url'
         ]
 
 

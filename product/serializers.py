@@ -67,6 +67,7 @@ class ProductListSerializer(serializers.ModelSerializer):
             'review_point',
             'market',
             'category',
+            'thumb_img_url'
         ]
 
 
@@ -100,6 +101,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             'market',
             'product_real',
             'questions',
+            'thumb_img_url',
         ]
 
 

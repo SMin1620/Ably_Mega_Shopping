@@ -120,6 +120,7 @@ class MarketAdminProductListCreateViewSet(mixins.ListModelMixin,
     """
     마켓별 상품 목록 조회, 생성 뷰셋 - 마켓 관리자용
     """
+    pagination_class = LargeResultsSetPagination
 
     def get_queryset(self):
         market_id = self.kwargs['market_id']
