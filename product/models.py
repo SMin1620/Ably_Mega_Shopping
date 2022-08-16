@@ -15,7 +15,7 @@ class Category(models.Model):
         db_table = 'category'
 
     def __str__(self):
-        return f'{self.id}, {self.name}'
+        return f'{self.name}'
 
 
 # Create your models here.
@@ -57,6 +57,13 @@ class Product(models.Model):
 
     def __str__(self):
         return f'{self.id}, {self.name}'
+
+    @property
+    def thumb_img_url(self):
+        img_name = self.category.name
+        img_name += '2' if self.id % 2 == 0 else ''
+
+        return f"https://raw.githubusercontent.com/SMin1620/mbly-img/master/{img_name}.jpg"
 
 
 class ProductReal(models.Model):

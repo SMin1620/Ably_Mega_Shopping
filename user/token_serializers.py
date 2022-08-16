@@ -9,6 +9,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         token['gender'] = user.gender
         token['name'] = user.name
+        token['profile_img_url'] = user.profile_img_url
         token['is_staff'] = user.is_staff
         token['is_active'] = user.is_active
         token['master_market_id'] = user.market.id if hasattr(user, 'market') else 0
