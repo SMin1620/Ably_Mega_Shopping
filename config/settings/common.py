@@ -64,7 +64,8 @@ INSTALLED_APPS += [
     'market',
     'qna',
     'cart',
-    'tag'
+    'tag',
+    'review'
 ]
 
 MIDDLEWARE = [

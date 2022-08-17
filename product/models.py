@@ -109,7 +109,7 @@ class ProductReal(models.Model):
 
     @property
     def rgb_color(self):
-        return ProductReal.rbg_color_from_color_name(self.option_2_name)
+        return ProductReal.rgb_color_from_color_name(self.option_2_name)
 
     @classmethod
     def rgb_color_from_color_name(cls, color):
