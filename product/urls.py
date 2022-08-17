@@ -5,6 +5,7 @@ from product.views import (
     CategoryProductListViewSet,
     ProductQuestionListViewSet
 )
+from review.views import ReviewListCreateViewSet
 
 
 product_list = ProductListAPI.as_view({
@@ -30,6 +31,10 @@ product_question_list = ProductQuestionListViewSet.as_view({
     'get': 'list'
 })
 
+product_review = ReviewListCreateViewSet.as_view({
+    'get': 'list'
+})
+
 
 urlpatterns = [
     path('', product_list, name='Product List'),
@@ -38,4 +43,5 @@ urlpatterns = [
     path('category/', category_list),
     path('category/<int:category_id>/', category_product_list),
     path('<int:product_id>/question/', product_question_list),
+    path('<int:product_id>/review/', product_review),
 ]

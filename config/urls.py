@@ -44,6 +44,7 @@ urlpatterns = [
     path('market/', include('market.urls')),
     path('question/', include('qna.urls')),
     path('cart/', include('cart.urls')),
+    path('review/', include('review.urls')),
     path('identicon/image/<path:data>/', pydenticon_image, name='pydenticon_image'),
 
     # # swagger

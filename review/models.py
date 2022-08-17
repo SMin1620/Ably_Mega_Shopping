@@ -11,7 +11,7 @@ class Review(models.Model):
     review = models.PositiveIntegerField('리뷰 평점', validators=[MinValueValidator(0), MaxValueValidator(5)])
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='review_product')
 
     reg_date = models.DateTimeField('등록 날짜', auto_now_add=True)
     update_date = models.DateTimeField('수정 날짜', auto_now=True)
