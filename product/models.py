@@ -2,6 +2,7 @@ from django.db import models
 
 from market.models import Market
 from user.models import User
+from config.utils.models import SoftDeleteModel
 
 
 class Category(models.Model):
@@ -19,7 +20,7 @@ class Category(models.Model):
 
 
 # Create your models here.
-class Product(models.Model):
+class Product(SoftDeleteModel):
     """
     상품 모델
     """
