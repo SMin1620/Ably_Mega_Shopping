@@ -138,3 +138,4 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         ]
 
 
+

@@ -109,3 +109,25 @@ class ProductQuestionListViewSet(mixins.ListModelMixin,
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     pagination_class = LargeResultsSetPagination
+
+
+class ProductRestoreViewSet(mixins.ListModelMixin,
+                            mixins.RetrieveModelMixin,
+                            viewsets.GenericViewSet):
+    """
+    삭제된 상품 리스트, 복구 뷰셋
+    """
+    lookup_url_kwarg = 'product_id'
+    queryset = Product.objects.filter(is_deleted=True)
+    serializer_class = ProductListSerializer
+
+    @action(detail=True, methods=['post'])
+    def restore(self, request, *args, **kwargs):
+        """
+        상품 복구
+        """
+        pk = self.kwargs['product_id']
+        product = get_object_or_404(Product, pk=pk)
+        product.retore()
+
+        return Response(status=status.HTTP_200_OK)
