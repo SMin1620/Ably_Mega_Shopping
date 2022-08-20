@@ -48,8 +48,9 @@ class MarketProductListViewSet(mixins.ListModelMixin,
 
         return Product.objects \
             .filter(market_id=market_id) \
-            .prefetch_related('market') \
-            .prefetch_related('category') \
+            .select_related('market') \
+            .select_related('category') \
+            .prefetch_related('product_like_user') \
             .all()
 
     def get_serializer_class(self):

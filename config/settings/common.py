@@ -59,6 +59,7 @@ INSTALLED_APPS += [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'django_pydenticon',
+    'debug_toolbar',
     'user',
     'product',
     'market',
@@ -78,9 +79,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 pymysql.install_as_MySQLdb()
+INTERNAL_IPS = ('127.0.0.1',)
 
 TEMPLATES = [
     {
