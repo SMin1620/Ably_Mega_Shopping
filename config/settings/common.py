@@ -66,7 +66,8 @@ INSTALLED_APPS += [
     'qna',
     'cart',
     'tag',
-    'review'
+    'review',
+    'coupon',
 ]
 
 MIDDLEWARE = [
@@ -158,7 +159,7 @@ SIMPLE_JWT = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Mega_Shopping',
+        'NAME': 'mega_shopping',
         'USER': 'root',
         'PASSWORD': '1234',
         'HOST': '127.0.0.1',
