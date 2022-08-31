@@ -4,6 +4,8 @@ from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 
+from coupon.gen_master_data import gen_master
+
 
 class Migration(migrations.Migration):
 
@@ -45,4 +47,5 @@ class Migration(migrations.Migration):
             name='user',
             field=models.ManyToManyField(related_name='coupon_user', through='coupon.CouponUser', to=settings.AUTH_USER_MODEL),
         ),
+        migrations.RunPython(gen_master),
     ]
