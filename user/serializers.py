@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from user.models import User
 from user.utils import validate_password12
 from user.token_serializers import MyTokenObtainPairSerializer
+from coupon.models import CouponUser
 
 
 class LoginSerializer(serializers.ModelSerializer):
@@ -96,6 +97,11 @@ class RegisterSerializer(serializers.Serializer):
             name=validate_data['name'],
             gender=validate_data['gender']
         )
+        CouponUser.objects.create(
+            user=user,
+            coupon_id=1,
+
+        ).save()
         return user
 
 
