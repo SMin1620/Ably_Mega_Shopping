@@ -41,10 +41,16 @@ class CouponUserSerializer(serializers.ModelSerializer):
     # 동시성 문제를 해결하기 위해 트랜잭션 설정
     @transaction.atomic()
     def create(self, validated_data, *args, **kwargs):
+
+        # 쿠폰 수량 -1
         Coupon.objects.filter(
             pk=validated_data.get('coupon'),
         ).update(quantity=F('quantity') - 1)
 
+        # 트랜잭션 처리 확인
+        # raise('도중에 실패함 근데 트랜잭션으로 해결한거 같음.')
+
+        # 유저의 쿠폰 발급
         coupon_user = CouponUser.objects.create(
             user=self.context['request'].user,
             coupon_id=validated_data.get('coupon'),
