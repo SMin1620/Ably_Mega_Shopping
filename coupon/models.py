@@ -7,6 +7,7 @@ class Coupon(models.Model):
     name = models.CharField('쿠폰 이름', max_length=100)
     discount_price = models.DecimalField('쿠폰 가격', max_digits=10, decimal_places=2, null=True, blank=True)
     discount_percent = models.DecimalField('쿠폰 퍼센트', max_digits=10, decimal_places=2, null=True, blank=True)
+    quantity = models.PositiveIntegerField('쿠폰 수량', default=0)
 
     user = models.ManyToManyField(User, through='coupon.CouponUser', related_name='coupon_user')
 

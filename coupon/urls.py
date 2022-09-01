@@ -7,12 +7,12 @@ from coupon.views import (
 
 
 coupon_list = CouponListDetailViewSet.as_view({
-    'get': 'list'
+    'get': 'list',
+    'post': 'create'
 })
 
 coupon_detail = CouponListDetailViewSet.as_view({
     'get': 'retrieve',
-    'post': 'create'
 })
 
 

@@ -1,4 +1,5 @@
 from rest_framework import mixins, viewsets, status
+from rest_framework.response import Response
 
 from coupon.models import Coupon, CouponUser
 from coupon.serializers import (
@@ -28,10 +29,11 @@ class CouponListDetailViewSet(mixins.ListModelMixin,
         else:
             return CouponUserSerializer
 
-    def perform_create(self, serializer):
-        serializer.save(
-            user=self.request.user,
-            coupon_id=self.kwargs['coupon_id']
-        )
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        # serializer의 create() 함수 호출
+        serializer.save()
+        return Response(status=status.HTTP_201_CREATED)
 
 
