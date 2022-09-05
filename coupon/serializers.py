@@ -45,7 +45,7 @@ class CouponUserSerializer(serializers.ModelSerializer):
         # 쿠폰 수량 -1
         Coupon.objects.filter(
             pk=validated_data.get('coupon'),
-        ).update(quantity=F('quantity') - 1)
+        ).select_for_update().update(quantity=F('quantity') - 1)
 
         # 트랜잭션 처리 확인
         # raise('도중에 실패함 근데 트랜잭션으로 해결한거 같음.')
