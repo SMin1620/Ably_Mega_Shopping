@@ -32,7 +32,9 @@ class CouponListDetailViewSet(mixins.ListModelMixin,
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
         # serializer의 create() 함수 호출
+        # 트랜잭션 시작
         serializer.save()
         return Response(status=status.HTTP_201_CREATED)
 

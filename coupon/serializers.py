@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.db import transaction
 from django.db.models import F
+from django.utils.translation import gettext_lazy as _
 
 from coupon.models import Coupon, CouponUser
 
@@ -39,8 +40,17 @@ class CouponUserSerializer(serializers.ModelSerializer):
         ]
 
     # 동시성 문제를 해결하기 위해 트랜잭션 설정
+    # 트랜잭션 시작
     @transaction.atomic()
     def create(self, validated_data, *args, **kwargs):
+        # 유저가 해당 쿠폰을 발급 받았는지 확인
+        get_coupon = CouponUser.objects.get(
+            user=self.context['request'].user,
+            coupon_id=validated_data.get('coupon')
+        )
+
+        if get_coupon.exists():
+            raise _('Coupon is already done')
 
         # 쿠폰 수량 -1
         Coupon.objects.filter(
