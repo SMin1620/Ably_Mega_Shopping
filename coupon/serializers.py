@@ -43,6 +43,7 @@ class CouponUserSerializer(serializers.ModelSerializer):
     # 트랜잭션 시작
     @transaction.atomic()
     def create(self, validated_data, *args, **kwargs):
+        """ 장고의 트랜잭션을 사용한 로직 """
         # 유저가 해당 쿠폰을 발급 받았는지 확인
         get_coupon = CouponUser.objects.get(
             user=self.context['request'].user,
@@ -65,4 +66,8 @@ class CouponUserSerializer(serializers.ModelSerializer):
             user=self.context['request'].user,
             coupon_id=validated_data.get('coupon'),
         )
+
+        """ redis를 이용한 트랜잭션 로직 """
+
+        
         return coupon_user
