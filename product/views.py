@@ -1,7 +1,7 @@
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 
-from rest_framework import mixins, viewsets, status
+from rest_framework import mixins, viewsets, status, views
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -19,6 +19,8 @@ from product.serializers import (
     ProductLikeSerializer,
 )
 from config.utils.pagination import LargeResultsSetPagination
+
+from product.utils.redis_rank import get_rank
 
 
 # Create your views here.
@@ -131,3 +133,18 @@ class ProductRestoreViewSet(mixins.ListModelMixin,
         product.retore()
 
         return Response(status=status.HTTP_200_OK)
+
+
+class ProductBestAPIView(views.APIView):
+    def get(self, request):
+        cache_data = get_rank()
+        result = []
+        total_product_rank = cache_data[0: 5]
+
+        result.append(f'total_rank: {total_product_rank}')
+        rank_response = Response(result, status=status.HTTP_200_OK)
+
+        return rank_response
+
+
+

@@ -5,6 +5,7 @@ from product.views import (
     CategoryProductListViewSet,
     ProductQuestionListViewSet,
     ProductRestoreViewSet,
+    ProductBestAPIView
 )
 from review.views import ReviewListCreateViewSet
 
@@ -56,4 +57,5 @@ urlpatterns = [
     path('<int:product_id>/review/', product_review),
     path('delete/', product_delete_list),
     path('delete/<int:product_id>/', product_delete_restore),
+    path('best/', ProductBestAPIView.as_view()),
 ]
